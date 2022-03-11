@@ -1,0 +1,13 @@
+# Changes in this will be applied only when pods are updated
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuber-config
+data:
+  NAME: Jorma
+  TITLE: webdev
+  # - name: PASSWORD
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: my-password
+  #       key: password

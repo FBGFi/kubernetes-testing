@@ -1,0 +1,45 @@
+{
+  "name": "kuber-server",
+  "version": "2.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "prebuild-production": "tslint -c src/tslint.json -p tsconfig.json --fix",
+    "test": "npx mocha -r tsconfig-paths/register -r ts-node/register -r dotenv/config ./src/**/*.test.ts",
+    "clean": "rd /s /q dist || rm -rf dist",
+    "build": "npm run prebuild-production && (npm run clean || true) && npx webpack",
+    "build-docker": "npm run build && docker build -t kuber-server .",
+    "stop-docker": "docker stop kuber-server",
+    "remove-docker": "docker rm kuber-server",
+    "run-docker": "docker run -p 3000:3000 -d --name kuber-server kuber-server",
+    "rebuild-docker": "npm run build-docker && npm run stop-docker && npm run remove-docker && npm run run-docker",
+    "kuber-rebuild": "npm run build-docker && kubectl rollout restart deployments/kubernetes-test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "path": "^0.12.7",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.0",
+    "@types/express": "^4.17.13",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.21",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1",
+    "ts-loader": "^9.2.7",
+    "ts-node": "^10.7.0",
+    "tsconfig-paths": "^3.13.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.6.2",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # Must be existing endpoint in apiserver
+kind: Deployment # Object type (Deployment/Pod/Replicaset/Namespace/Service...)
+metadata: # Basic info of the Object (name, labels, namespace...)
+  name: kubernetes-test
+spec: # Object specs
+  replicas: 2 # Number of instances concurrently running
+  selector:
+    matchLabels:
+      app: kubernetes-test
+  template:
+    metadata:
+      labels:
+        app: kubernetes-test
+    spec: # State of one Pod
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: kuber-server
+        image: kuber-server:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        envFrom: # Add env from premade config
+        - configMapRef:
+            name: kuber-config
+        - secretRef:
+            name: my-password
+        # env: # Add env individually, here from secret
+        # - name: WORDPRESS_DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: my-password
+        #       key: password

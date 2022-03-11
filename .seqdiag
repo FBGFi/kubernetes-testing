@@ -1,0 +1,7 @@
+User->Server: POST {roomId}
+Server->Server: PodID found with roomId?
+Server->Socket.IO: Connect/Create Pod
+Socket.IO-->User: User connected
+User->Socket.IO: User disconnected
+Socket.IO->Socket.IO: Room empty?
+Socket.IO-->Server: Note the server to remove Pod
