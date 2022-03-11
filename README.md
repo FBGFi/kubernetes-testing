@@ -34,10 +34,17 @@ Gets the API server endpoint (localhost:nodePort) - `APISERVER=$(kubectl config 
 One note here, FOLLOW THE INSTRUCTIONS CAREFULLY
 
 `openssl genrsa -out <name>.key 2048` - Generates 2048 bit key
+
 `openssl req -new -key <name>.key -out <name>.csr` - Generate CSR
+
 `cat <name>.csr | base64 | tr -d '\n','%'` - Print csr to console
+
 `kubectl create -f <name>.yaml` - Create CSR object
+
 `kubectl certificate approve <name>` - Approve csr
+
 `kubectl get csr <name> -o jsonpath='{.status.certificate}' | base64 --decode > <name>.crt` - Create CRT
+
 `kubectl config set-credentials <name> --client-certificate=<name>.crt --client-key=<name>.key` - Set User
+
 `kubectl config set-context <name>-context --cluster=minikube --namespace=<name> --user=<name>` - Create context
