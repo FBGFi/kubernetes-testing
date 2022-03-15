@@ -2,6 +2,8 @@ apiVersion: apps/v1 # Must be existing endpoint in apiserver
 kind: Deployment # Object type (Deployment/Pod/Replicaset/Namespace/Service...)
 metadata: # Basic info of the Object (name, labels, namespace...)
   name: kubernetes-test
+  annotations:
+    description: This is the way to add custom annotations basicly anywhere
 spec: # Object specs
   replicas: 2 # Number of instances concurrently running
   selector:
