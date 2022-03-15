@@ -1,0 +1,8 @@
+.ChartTest{
+	flex: 1;
+    display: flex;
+}
+
+div[id^="chart-"]{
+    flex: 1;
+}

@@ -4,3 +4,5 @@ export interface ISocketClass{
     host: string;
     options?: SocketOptions
 }
+
+export default ISocketClass;
