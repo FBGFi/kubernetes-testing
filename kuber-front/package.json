@@ -22,9 +22,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-e2e": "set \"REACT_APP_ENV=cypress\" && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@amcharts)/\" --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "e2e": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -45,7 +47,10 @@
     ]
   },
   "devDependencies": {
+    "canvas": "^2.9.0",
+    "cypress": "^9.5.2",
     "jest-canvas-mock": "^2.3.1",
+    "jest-puppeteer": "^6.1.0",
     "msw": "^0.39.1"
   }
 }

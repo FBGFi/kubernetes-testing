@@ -78,7 +78,7 @@ function usePieChart(id: string, count: number) {
 		// animations
 		series.data.setIndex(0, {
 			category: "Research",
-			value: 1000 * count
+			value: 1000 * count,
 		});
 		series.data.setIndex(1, {
 			category: "Marketing",
@@ -88,6 +88,7 @@ function usePieChart(id: string, count: number) {
 			category: "Sales",
 			value: 850 - (100 * count)
 		});
+		if(process.env.REACT_APP_ENV === "cypress") series.slices.template.setAll({focusable: true, isMeasured: true, ariaLabel: "Slice; {category} {value}"})
 		setPrevCount(count);
 		return (() => {
 			root.dispose();
@@ -99,6 +100,7 @@ const ChartsWithClass: React.FC<TChartsWithClassProps> = (props) => {
 	const [count, setCount] = useState(0);
 	const [count2, setCount2] = useState(0);
 	usePieChart("chart", count);
+	
 	return (
 		<div className='ChartsWithClass'>
 			<div id="chart"></div>
