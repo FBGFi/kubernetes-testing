@@ -51,6 +51,24 @@ const usePieChartWithUpdate: React.FC<{ id: string, count: number }> = ({ id, co
 	);
 }
 
+async function getData(count: number): Promise<{ category: string, value: number }[]> {
+	try {
+		let res = await fetch('/api/data/')
+		return await res.json();
+	} catch (error) {
+		return [{
+			category: "Research",
+			value: 1000 * count
+		}, {
+			category: "Marketing",
+			value: 1200 + (100 * count)
+		}, {
+			category: "Sales",
+			value: 850 - (100 * count)
+		}]
+	}
+}
+
 // custom hook
 function usePieChart(id: string, count: number) {
 	const [prevCount, setPrevCount] = useState(count);
@@ -63,33 +81,27 @@ function usePieChart(id: string, count: number) {
 			valueField: "value",
 			categoryField: "category"
 		}));
-		const data = [{
-			category: "Research",
-			value: 1000 * prevCount
-		}, {
-			category: "Marketing",
-			value: 1200 + (100 * prevCount)
-		}, {
-			category: "Sales",
-			value: 850 - (100 * prevCount)
-		}]
-		series.data.setAll(data);
+		getData(count)
+			.then(data => {
+				series.data.setAll(data);
+				if (process.env.REACT_APP_ENV === "cypress") series.slices.template.setAll({ focusable: true, isMeasured: true, ariaLabel: "Slice; {category} {value}" })
+				setPrevCount(count);
+			});
 
-		// animations
-		series.data.setIndex(0, {
-			category: "Research",
-			value: 1000 * count,
-		});
-		series.data.setIndex(1, {
-			category: "Marketing",
-			value: 1200 + (100 * count)
-		});
-		series.data.setIndex(2, {
-			category: "Sales",
-			value: 850 - (100 * count)
-		});
-		if(process.env.REACT_APP_ENV === "cypress") series.slices.template.setAll({focusable: true, isMeasured: true, ariaLabel: "Slice; {category} {value}"})
-		setPrevCount(count);
+		// animations (does not work well with cypress)
+		// series.data.setIndex(0, {
+		// 	category: "Research",
+		// 	value: 1000 * count,
+		// });
+		// series.data.setIndex(1, {
+		// 	category: "Marketing",
+		// 	value: 1200 + (100 * count)
+		// });
+		// series.data.setIndex(2, {
+		// 	category: "Sales",
+		// 	value: 850 - (100 * count)
+		// });
+
 		return (() => {
 			root.dispose();
 		})
@@ -100,7 +112,7 @@ const ChartsWithClass: React.FC<TChartsWithClassProps> = (props) => {
 	const [count, setCount] = useState(0);
 	const [count2, setCount2] = useState(0);
 	usePieChart("chart", count);
-	
+
 	return (
 		<div className='ChartsWithClass'>
 			<div id="chart"></div>
