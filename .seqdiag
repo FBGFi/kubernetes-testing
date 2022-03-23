@@ -1,7 +1,12 @@
 User->Server: POST {roomId}
 Server->Server: PodID found with roomId?
-Server->Socket.IO: Connect/Create Pod
+Server->Socket.IO: Create Pod
+Socket.IO-->Server: Return pod ID
+Server->Server: Register pod to roomId
+Server-->User: Return pod IP
+User->Socket.IO: Connect
 Socket.IO-->User: User connected
-User->Socket.IO: User disconnected
+User->Socket.IO: Disconnect
 Socket.IO->Socket.IO: Room empty?
 Socket.IO-->Server: Note the server to remove Pod
+Server->Server: Destroy pod

@@ -1,23 +1,27 @@
 import React from 'react';
 import './App.css';
 import { Button } from '@mui/material';
-
-import { io } from 'socket.io-client';
-import { SocketClass } from './constants/classes/SocketClient';
-import ChartTest from 'components/ChartTest';
 import ChartsWithClass from 'components/ChartsWithClass';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TestPage from 'pages/TestPage';
 
+type t = {
+  wtf?: undefined
+}
+
 const App = () => {
   const [apiResponse, setApiResponse] = React.useState<string[]>([]);
-  const requests = 20;
+  const requests = 1;
+
+  fetch('http://localhost:3000/api')
+    .then(res => res.json())
+    .then(data => console.log(data))
 
   React.useEffect(() => {
     if (apiResponse.length < requests) {
-      fetch('http://localhost:3000/')
+      fetch('http://localhost:3000')
         .then(res => res.json())
-        .then(data => setApiResponse(apiResponse.concat([data.data])))
+        .then(data => setApiResponse(apiResponse.concat([data])))
     }
   }, [apiResponse]);
 

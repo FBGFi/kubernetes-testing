@@ -49,10 +49,7 @@
     ]
   },
   "devDependencies": {
-    "canvas": "^2.9.0",
     "cypress": "^9.5.2",
-    "jest-canvas-mock": "^2.3.1",
-    "jest-puppeteer": "^6.1.0",
     "msw": "^0.39.1"
   }
 }

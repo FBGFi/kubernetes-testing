@@ -1,19 +1,19 @@
 /// <reference types="cypress" />
 
+// Psychosis
 function formatNumber(number, decimals) {
-  let numStr = number + "";
-  if (number < 0) {
-    numStr = numStr.substring(1, numStr.length);
-  }
+  let numArr = ((number < 0 ? number * -1 : number) + "").split('.');
+  let numStr = numArr[0];
   let initLength = numStr.length;
+  let commaPos;
   for (let i = 1; i * decimals < initLength; i++) {
-    numStr =
-      numStr.substring(0, numStr.length - (decimals * i + (i - 1))) +
-      "," +
-      numStr.substring(numStr.length - (decimals * i + (i - 1)), numStr.length);
+    commaPos = numStr.length - (decimals * i + (i - 1));
+    numStr = numStr.substring(0, commaPos) + "," + numStr.substring(commaPos, numStr.length);
   }
-  if (number < 0) return "-" + numStr;
-  return numStr;
+  if (number < 0) return "-" + numStr + (numArr.length > 1 ? '.' + numArr[1] : '');
+  return numStr + (numArr.length > 1 ? '.' + numArr[1] : '');
+  // same but less fun
+  // return number.toLocaleString();
 }
 
 describe("App testing example", () => {
@@ -69,7 +69,7 @@ describe("App testing example", () => {
           },
           {
             category: "Marketing",
-            value: 1200 + 100 * i,
+            value: 1200.50 + 100 * i,
           },
           {
             category: "Sales",
@@ -82,7 +82,7 @@ describe("App testing example", () => {
         `[aria-label="Slice; Research ${formatNumber(1000 * i, 3)}"]`
       ).should("exist");
       cy.get(
-        `[aria-label="Slice; Marketing ${formatNumber(1200 + 100 * i, 3)}"]`
+        `[aria-label="Slice; Marketing ${formatNumber(1200.50 + 100 * i, 3)}"]`
       ).should("exist");
       cy.get(
         `[aria-label="Slice; Sales ${formatNumber(850 - 100 * i, 3)}"]`

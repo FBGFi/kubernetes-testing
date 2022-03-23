@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubernetes-socket-job
+spec:
+  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      containers:
+      - name: kuber-socket
+        image: kuber-socket:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3001   
+      restartPolicy: Never
+  backoffLimit: 2
+  parallelism: 5

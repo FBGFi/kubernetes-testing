@@ -48,3 +48,7 @@ One note here, FOLLOW THE INSTRUCTIONS CAREFULLY
 `kubectl config set-credentials <name> --client-certificate=<name>.crt --client-key=<name>.key` - Set User
 
 `kubectl config set-context <name>-context --cluster=minikube --namespace=<name> --user=<name>` - Create context
+
+## Service accounds
+
+`kubectl create serviceaccount <account-name>` - Create a service account

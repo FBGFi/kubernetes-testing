@@ -20,3 +20,4 @@ spec:
         name: kuber-config
     - secretRef:
         name: my-password
+  serviceAccountName: my-service-account

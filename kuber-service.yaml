@@ -11,3 +11,17 @@ spec:
       port: 3000
       targetPort: 3000
       nodePort: 31855
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: kuber-socket-service
+# spec:
+#   selector:
+#     app: kubernetes-socket-test
+#   type: LoadBalancer
+#   ports:
+#     - protocol: TCP
+#       port: 3001
+#       targetPort: 3001
+#       nodePort: 31856
